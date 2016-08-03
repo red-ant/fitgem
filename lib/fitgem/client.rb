@@ -119,6 +119,23 @@ module Fitgem
       @api_locale = opts[:locale] || Fitgem::ApiLocale.US
     end
 
+    # Refresh access token
+    #
+    # @param [String] Refresh token
+    # @return [OAuth2::AccessToken] Accesstoken and refresh token
+    def refresh_access_token!(refresh_token)
+      new_access_token = access_token(refresh_token: refresh_token)
+      # refresh! method return new object not itself and not change itself
+      new_token = new_access_token.refresh!(headers: auth_header)
+      @token = new_token.token
+      @access_token = nil
+      new_token
+    end
+
+    def expired?
+      access_token.expired?
+    end
+
     private
 
       def consumer
@@ -129,8 +146,8 @@ module Fitgem
         })
       end
 
-      def access_token
-        @access_token ||= OAuth2::AccessToken.new(consumer, @token)
+      def access_token(opts = {})
+        @access_token ||= OAuth2::AccessToken.new(consumer, @token, opts)
       end
 
       def get(path, headers={})
@@ -181,6 +198,10 @@ module Fitgem
           'Accept-Language' => @api_unit_system,
           'Accept-Locale' => @api_locale
         }
+      end
+
+      def auth_header
+        {Authorization: "Basic #{ Base64.encode64("#{ @consumer_key }:#{ @consumer_secret }") }" }
       end
   end
 end
