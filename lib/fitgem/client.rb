@@ -132,6 +132,13 @@ module Fitgem
       new_token
     end
 
+    def get_token(authorization_code, redirect_uri, opts = {})
+      new_token = consumer.auth_code.get_token(authorization_code, { headers: auth_header, redirect_uri: redirect_uri }, opts)
+      @token = new_token.token
+      @access_token = nil
+      new_token
+    end
+
     def expired?
       access_token.expired?
     end
