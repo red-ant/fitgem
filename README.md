@@ -6,13 +6,7 @@ OAUth access_token. Without an access_token you can only gather data that a
 user has denoted as 'public'.  However, if an access_token is provided then all
 exposed data can be gathered for the logged-in account.
 
-### WARNING: THIS GEM IS NO LONGER UNDER ACTIVE DEVELOPMENT
-
-**I'm looking for a new maintainer- I've grown to dislike Fitbit's products and
-platform and don't have much interest in this library anymore. Please contact
-me if you're interested in taking over development.**
-
-**The final release will be 1.0.0, which changes over the gem to use OAuth2.**
+**This is a fork of Whazzmaster's gem that's no longer maintained**
 
 ### Installation
 
